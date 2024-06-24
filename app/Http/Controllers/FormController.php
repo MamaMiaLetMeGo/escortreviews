@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Models\form;
 use Illuminate\Http\Request;
-
 class formController extends Controller
 {
     /**
@@ -27,7 +26,9 @@ class formController extends Controller
             default => $forms->latest()
         };
 
-        $forms = $forms->get();
+        // $forms = $forms->get();
+        $cacheKey = 'forms:' . $filter . $name;
+        $forms = cache()->remember($cacheKey, 3600, fn() => $forms->get());
 
         return view('forms.index', ['forms' => $forms]);
     }
