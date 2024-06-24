@@ -17,7 +17,7 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            'escort_id' => null,
+            'form_id' => null,
             'review' => fake()->paragraph,
             'rating' => fake()->numberBetween(1,5),
             'created_at' => fake()->dateTimeBetween('-2 years'),

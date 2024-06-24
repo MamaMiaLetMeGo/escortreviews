@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Escort;
+use App\Models\form;
 use Illuminate\Http\Request;
 
-class EscortController extends Controller
+class formController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -12,14 +12,24 @@ class EscortController extends Controller
     public function index(Request $request)
     {
         $name = $request->input('name');
+        $filter = $request->input('filter', '');
 
-        $escorts = Escort::when(
+        $forms = form::when(
             $name,
             fn ($query, $name) => $query->name($name)
-        )
-            ->get();
+        );
+        
+        $forms = match($filter) {
+            'popular_last_month' => $forms->popularLastMonth(),
+            'popular_last_6months' => $forms->popularLast6Months(),
+            'highest_rated_last_month' => $forms->highestRatedLastMonth(),
+            'highest_rated_last_6months' => $forms->highestRatedLast6Months(),
+            default => $forms->latest()
+        };
 
-        return view('escorts.index', ['escorts' => $escorts]);
+        $forms = $forms->get();
+
+        return view('forms.index', ['forms' => $forms]);
     }
     /**
      * Show the form for creating a new resource.

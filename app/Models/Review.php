@@ -11,8 +11,8 @@ class Review extends Model
 
     protected $fillable = ['review', 'rating'];
 
-    public function escort()
+    public function form()
     {
-        return $this->belongsTo(Escort::class);
+        return $this->belongsTo(form::class);
     }
 }

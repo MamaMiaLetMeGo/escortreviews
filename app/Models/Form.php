@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
-class Escort extends Model
+class form extends Model
 {
     use HasFactory;
 
@@ -51,5 +51,33 @@ class Escort extends Model
         } elseif ($from && $to) {
             $query->whereBetween('created_at', [$from, $to]);
         }
+    }
+
+    public function scopePopularLastMonth(Builder $query): Builder|QueryBuilder
+    {
+        return $query->popular(now()->subMonth(), now())
+            ->highestRated(now()->subMonth(), now())
+            ->minReviews(2);
+    }
+
+    public function scopePopularLast6Months(Builder $query): Builder|QueryBuilder
+    {
+        return $query->popular(now()->subMonth(6), now())
+            ->highestRated(now()->subMonth(6), now())
+            ->minReviews(2);
+    }
+
+    public function scopeHighestRatedLastMonth(Builder $query): Builder|QueryBuilder
+    {
+        return $query->highestRated(now()->subMonth(), now())
+            ->popular(now()->subMonth(), now())
+            ->minReviews(2);
+    }
+
+    public function scopeHighestRatedLast6Months(Builder $query): Builder|QueryBuilder
+    {
+        return $query->highestRated(now()->subMonth(6), now())
+            ->popular(now()->subMonth(6), now())
+            ->minReviews(4);
     }
 }

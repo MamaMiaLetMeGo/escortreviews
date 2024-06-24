@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Escort;
+use App\Models\form;
 use App\Models\Review;
 use Illuminate\Database\Seeder;
 
@@ -13,32 +13,32 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Escort::factory(33)->create()->each(function ($escort) {
+        form::factory(33)->create()->each(function ($form) {
             $numReviews = random_int(5, 30);
             
             Review::factory()->count($numReviews)
                 ->good()
-                ->for($escort)
+                ->for($form)
                 ->create();
 
         });
 
-        Escort::factory(34)->create()->each(function ($escort) {
+        form::factory(34)->create()->each(function ($form) {
             $numReviews = random_int(5, 30);
             
             Review::factory()->count($numReviews)
                 ->average()
-                ->for($escort)
+                ->for($form)
                 ->create();
 
         });
 
-        Escort::factory(33)->create()->each(function ($escort) {
+        form::factory(33)->create()->each(function ($form) {
             $numReviews = random_int(5, 30);
             
             Review::factory()->count($numReviews)
                 ->bad()
-                ->for($escort)
+                ->for($form)
                 ->create();
 
         });
