@@ -50,9 +50,15 @@ class formController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(form $form)
     {
-        //
+        return view('forms.show',
+            [
+                'form' => $form->load([
+                'reviews' => fn($query) => $query->latest()
+                ])
+            ]
+        );
     }
 
     /**
