@@ -15,4 +15,10 @@ class Review extends Model
     {
         return $this->belongsTo(form::class);
     }
+
+    protected static function booted()
+    {
+        static::updated(fn(Review $review) => cache()->forget('form:' . $review->form_id));
+        static::deleted(fn(Review $review) => cache()->forget('form:' . $review->form_id));
+    }
 }

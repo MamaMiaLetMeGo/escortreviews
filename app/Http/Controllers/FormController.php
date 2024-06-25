@@ -51,15 +51,15 @@ class formController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(form $form)
+    public function show(Form $form)
     {
-        return view('forms.show',
-            [
-                'form' => $form->load([
-                'reviews' => fn($query) => $query->latest()
-                ])
-            ]
-        );
+        $cacheKey = 'form:' . $form->id;
+
+        $book = cache()->remember($cacheKey, 3600, fn() => $form->load([
+            'reviews' => fn($query) => $query->latest()
+        ]));
+
+        return view('forms.show', ['form' => $form]);
     }
 
     /**
